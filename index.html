@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FilmTimer — Développement argentique</title>
+  <meta name="description" content="Timer élégant pour le développement de pellicule argentique. Gérez vos bains, retournements et séquences de développement." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- NAV -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span class="brand-icon">⬡</span>
+      <span class="brand-name">FilmTimer</span>
+    </div>
+    <div class="nav-actions">
+      <button id="btn-fullscreen" class="btn-ghost" title="Plein écran">⛶</button>
+      <button id="btn-print" class="btn-ghost" title="Fiche mémo">🖨 Mémo</button>
+      <button id="btn-settings" class="btn-ghost" title="Paramètres">⚙ Paramètres</button>
+    </div>
+  </nav>
+
+  <!-- MAIN VIEWS -->
+  <main id="app">
+
+    <!-- ===== VIEW: SETUP ===== -->
+    <section id="view-setup" class="view active">
+      <div class="setup-header">
+        <h1>Configurer la séquence</h1>
+        <p class="subtitle">Renseignez vos bains, durées et options de retournement</p>
+      </div>
+
+      <!-- Presets -->
+      <div class="card presets-card">
+        <div class="presets-header">
+          <h2>⚗ Préset</h2>
+          <div class="preset-select-wrap" id="preset-select-wrap">
+            <button class="preset-select-btn" id="preset-select-btn">
+              <span id="preset-select-label">Choisir un préset…</span>
+              <span class="preset-select-arrow">▾</span>
+            </button>
+            <div class="preset-dropdown" id="preset-dropdown"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Global options -->
+      <div class="card global-options">
+        <h2>Options globales</h2>
+        <div class="options-grid">
+          <label class="field">
+            <span>Offset sonnerie fin de bain (s)</span>
+            <input type="number" id="global-offset" value="5" min="0" max="60" />
+            <span class="field-hint">Sonnerie X secondes avant la fin</span>
+          </label>
+          <label class="field">
+            <span>Enchainement automatique</span>
+            <div class="toggle-wrap">
+              <input type="checkbox" id="global-auto" class="toggle-input" />
+              <span class="toggle-track"></span>
+              <span class="toggle-label" id="auto-label">Manuel</span>
+            </div>
+          </label>
+        </div>
+
+        <!-- Agitation global defaults -->
+        <div class="agitation-defaults">
+          <h3>Retournements — réglages par défaut</h3>
+          <div class="options-grid">
+            <label class="field">
+              <span>Fréquence (toutes les X secondes)</span>
+              <input type="number" id="global-agit-freq" value="60" min="5" max="600" />
+            </label>
+            <label class="field">
+              <span>Durée sonnerie (s)</span>
+              <input type="number" id="global-agit-dur" value="3" min="1" max="10" />
+            </label>
+            <label class="field">
+              <span>Son retournement</span>
+              <select id="global-agit-sound">
+                <option value="click">Clic</option>
+                <option value="beep">Bip court</option>
+                <option value="bell" selected>Cloche</option>
+                <option value="ping">Ping</option>
+                <option value="wood">Bloc bois</option>
+                <option value="soft">Doux</option>
+                <option value="double">Double bip</option>
+                <option value="low">Grave</option>
+                <option value="glass">Verre</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Son fin de bain</span>
+              <select id="global-end-sound">
+                <option value="beep">Bip</option>
+                <option value="alarm" selected>Alarme</option>
+                <option value="chime">Carillon</option>
+                <option value="bell">Cloche</option>
+                <option value="ping">Ping aigu</option>
+                <option value="glass">Verre</option>
+                <option value="fanfare">Fanfare</option>
+              </select>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Corrections -->
+      <div class="card corrections-card">
+        <h2>🌡 Corrections temporelles</h2>
+        <div class="corrections-grid">
+          <div class="correction-block">
+            <h3>Température du bain</h3>
+            <div class="options-grid">
+              <label class="field">
+                <span>Temp. de référence (°C)</span>
+                <div class="temp-ref-wrap">
+                  <input type="number" id="temp-ref" value="20" min="5" max="50" step="0.5" />
+                  <button class="btn-temp-preset btn-ghost btn-sm" data-temp="20">N&amp;B</button>
+                  <button class="btn-temp-preset btn-ghost btn-sm" data-temp="38">C-41</button>
+                </div>
+              </label>
+              <label class="field">
+                <span>Temp. réelle (°C)</span>
+                <input type="number" id="temp-real" value="20" min="5" max="50" step="0.5" />
+              </label>
+              <div class="field">
+                <span>Correction calculée</span>
+                <div id="temp-factor-display" class="factor-pill neutral">× 1.00</div>
+                <span class="field-hint" id="temp-hint">Aucun écart</span>
+              </div>
+            </div>
+          </div>
+          <div class="correction-block">
+            <h3>Épuisement du révélateur</h3>
+            <div class="options-grid">
+              <label class="field">
+                <span>Pellicules 36p déjà développées</span>
+                <input type="number" id="roll-count" value="0" min="0" max="100" />
+              </label>
+              <label class="field">
+                <span>Compensation (% par pellicule)</span>
+                <input type="number" id="roll-compensation" value="10" min="0" max="30" step="1" />
+              </label>
+              <div class="field">
+                <span>Ajout de temps (bains cochés)</span>
+                <div id="roll-factor-display" class="factor-pill neutral">+ 0%</div>
+                <span class="field-hint">Activer ↓ par bain développeur</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Baths list -->
+      <div class="card">
+        <div class="baths-header">
+          <h2>Bains <span id="bath-count-badge" class="badge">0</span></h2>
+          <button id="btn-add-bath" class="btn-primary">+ Ajouter un bain</button>
+        </div>
+        <div id="baths-list" class="baths-list"></div>
+      </div>
+
+      <div class="setup-footer">
+        <button id="btn-start" class="btn-accent btn-large" disabled>▶ Démarrer la séquence</button>
+      </div>
+    </section>
+
+    <!-- ===== VIEW: TIMER ===== -->
+    <section id="view-timer" class="view">
+      <div class="timer-layout">
+        <!-- Progress sidebar -->
+        <aside class="timer-sidebar">
+          <div class="sequence-label">Séquence</div>
+          <ol id="sidebar-steps" class="sidebar-steps"></ol>
+        </aside>
+
+        <!-- Main timer -->
+        <div class="timer-main">
+          <div class="bath-meta">
+            <div id="timer-step-label" class="step-label"></div>
+            <h2 id="timer-bath-title" class="bath-title"></h2>
+            <p id="timer-bath-message" class="bath-message"></p>
+          </div>
+
+          <div class="clock-wrap">
+            <svg class="clock-ring" viewBox="0 0 220 220">
+              <circle class="ring-bg" cx="110" cy="110" r="100" />
+              <circle id="ring-progress" class="ring-progress" cx="110" cy="110" r="100" />
+            </svg>
+            <div class="clock-center">
+              <div id="timer-display" class="timer-display">00:00</div>
+              <div id="timer-total" class="timer-total"></div>
+            </div>
+          </div>
+
+          <div id="agitation-indicator" class="agitation-indicator hidden">
+            <span class="agit-pulse"></span> Retournement
+          </div>
+
+          <div class="timer-controls">
+            <button id="btn-pause" class="btn-control">⏸ Pause</button>
+            <button id="btn-next" class="btn-control btn-next hidden">Continuer →</button>
+            <button id="btn-stop" class="btn-ghost btn-sm">✕ Arrêter</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== VIEW: DONE ===== -->
+    <section id="view-done" class="view">
+      <div class="done-wrap">
+        <div class="done-icon">✓</div>
+        <h1>Séquence terminée !</h1>
+        <p>Toutes les étapes ont été complétées avec succès.</p>
+        <button id="btn-restart" class="btn-accent btn-large">↺ Recommencer</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== BATH TEMPLATE ===== -->
+  <template id="bath-template">
+    <div class="bath-item" data-id="" draggable="false">
+      <div class="bath-item-header">
+        <div class="bath-drag-handle" title="Glisser pour réordonner">⠿</div>
+        <span class="bath-index"></span>
+        <input type="text" class="bath-name-input" placeholder="Nom du bain (ex : Développeur)" />
+        <button class="bath-toggle-expand btn-icon">▾</button>
+        <button class="bath-delete btn-icon btn-danger">✕</button>
+      </div>
+      <div class="bath-item-body">
+        <div class="bath-options-grid">
+          <label class="field">
+            <span>Durée (mm:ss)</span>
+            <input type="text" class="bath-duration" placeholder="05:00" value="05:00" />
+          </label>
+          <label class="field">
+            <span>Message optionnel</span>
+            <input type="text" class="bath-message" placeholder="Ex : Agitation douce x2" />
+          </label>
+          <label class="field">
+            <span>Offset sonnerie fin (s)</span>
+            <input type="number" class="bath-offset" value="" placeholder="Défaut global" min="0" max="60" />
+          </label>
+        </div>
+        <div class="bath-agitation-section">
+          <label class="field field-inline">
+            <span>Activer les retournements</span>
+            <div class="toggle-wrap">
+              <input type="checkbox" class="bath-agit-enabled toggle-input" />
+              <span class="toggle-track"></span>
+            </div>
+          </label>
+          <div class="bath-agit-options hidden">
+            <div class="bath-options-grid">
+              <label class="field">
+                <span>Fréquence (s)</span>
+                <input type="number" class="bath-agit-freq" placeholder="Défaut global" min="5" max="600" />
+              </label>
+              <label class="field">
+                <span>Durée sonnerie (s)</span>
+                <input type="number" class="bath-agit-dur" placeholder="Défaut global" min="1" max="10" />
+              </label>
+              <label class="field">
+                <span>Son retournement</span>
+                <select class="bath-agit-sound">
+                  <option value="">Défaut global</option>
+                  <option value="click">Clic</option>
+                  <option value="beep">Bip court</option>
+                  <option value="bell">Cloche</option>
+                  <option value="ping">Ping</option>
+                  <option value="wood">Bloc bois</option>
+                  <option value="soft">Doux</option>
+                  <option value="double">Double bip</option>
+                  <option value="low">Grave</option>
+                  <option value="glass">Verre</option>
+                </select>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="bath-correction-row">
+          <label class="field field-inline">
+            <span>Appliquer corrections (temp. + épuisement)</span>
+            <div class="toggle-wrap">
+              <input type="checkbox" class="bath-apply-correction toggle-input" />
+              <span class="toggle-track"></span>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <!-- ===== PRINT MEMO ===== -->
+  <div id="print-overlay" class="print-overlay hidden">
+    <div class="print-modal">
+      <div class="print-modal-header">
+        <h2>Fiche mémo — développement</h2>
+        <div class="print-modal-actions">
+          <button id="btn-do-print" class="btn-accent">🖨 Imprimer</button>
+          <button id="btn-close-print" class="btn-ghost">✕ Fermer</button>
+        </div>
+      </div>
+      <div id="print-content" class="print-content"></div>
+    </div>
+  </div>
+
+  <!-- ===== SETTINGS OVERLAY ===== -->
+  <div id="settings-overlay" class="settings-overlay hidden">
+    <div class="settings-modal">
+      <div class="settings-header">
+        <h2>⚙ Paramètres audio</h2>
+        <button id="btn-close-settings" class="btn-ghost">✕</button>
+      </div>
+      <div class="settings-body">
+        <p class="settings-note">Les sons sont générés via l'API Web Audio. Testez-les ici :</p>
+        <div class="sound-test-grid">
+          <button class="btn-sound-test" data-sound="click">Clic</button>
+          <button class="btn-sound-test" data-sound="beep">Bip court</button>
+          <button class="btn-sound-test" data-sound="bell">Cloche</button>
+          <button class="btn-sound-test" data-sound="ping">Ping</button>
+          <button class="btn-sound-test" data-sound="alarm">Alarme</button>
+          <button class="btn-sound-test" data-sound="chime">Carillon</button>
+          <button class="btn-sound-test" data-sound="wood">Bloc bois</button>
+          <button class="btn-sound-test" data-sound="soft">Doux</button>
+          <button class="btn-sound-test" data-sound="double">Double bip</button>
+          <button class="btn-sound-test" data-sound="low">Grave</button>
+          <button class="btn-sound-test" data-sound="glass">Verre</button>
+          <button class="btn-sound-test" data-sound="fanfare">Fanfare</button>
+        </div>
+        <div class="field" style="margin-top:1.5rem">
+          <span>Volume général</span>
+          <input type="range" id="master-volume" min="0" max="1" step="0.05" value="0.7" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

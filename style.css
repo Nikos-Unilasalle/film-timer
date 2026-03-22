@@ -138,8 +138,18 @@ button { cursor: pointer; font-family: var(--font); transition: all 0.18s ease; 
 .view.active { display: block; }
 #view-timer.active { display: flex; flex-direction: column; }
 
-#app { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
-#view-timer { max-width: 100%; padding: 0; }
+#app { width: 100%; }
+
+#view-setup, #view-done {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+#view-timer {
+  max-width: 100%;
+  padding: 0;
+}
 
 /* ---- CARD ---- */
 .card {

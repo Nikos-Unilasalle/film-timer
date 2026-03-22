@@ -165,23 +165,38 @@
             <div class="options-grid">
               <label class="field">
                 <span>ISO de référence (vitesse du film)</span>
-                <div class="iso-ref-wrap">
-                  <input type="number" id="iso-ref" value="100" min="25" max="3200" step="1" />
-                  <button class="btn-iso-preset btn-ghost btn-sm" data-iso="50">50</button>
-                  <button class="btn-iso-preset btn-ghost btn-sm" data-iso="100">100</button>
-                  <button class="btn-iso-preset btn-ghost btn-sm" data-iso="200">200</button>
-                  <button class="btn-iso-preset btn-ghost btn-sm" data-iso="400">400</button>
-                </div>
+                <select id="iso-ref">
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="64">64</option>
+                  <option value="100" selected>100</option>
+                  <option value="125">125</option>
+                  <option value="160">160</option>
+                  <option value="200">200</option>
+                  <option value="320">320</option>
+                  <option value="400">400</option>
+                  <option value="800">800</option>
+                  <option value="1600">1600</option>
+                  <option value="3200">3200</option>
+                </select>
               </label>
               <label class="field">
                 <span>ISO utilisé à la prise de vue</span>
-                <div class="iso-ref-wrap">
-                  <input type="number" id="iso-real" value="100" min="25" max="6400" step="1" />
-                  <button class="btn-iso-preset btn-ghost btn-sm" data-iso="50">50</button>
-                  <button class="btn-iso-preset btn-ghost btn-sm" data-iso="100">100</button>
-                  <button class="btn-iso-preset btn-ghost btn-sm" data-iso="200">200</button>
-                  <button class="btn-iso-preset btn-ghost btn-sm" data-iso="400">400</button>
-                </div>
+                <select id="iso-real">
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="64">64</option>
+                  <option value="100" selected>100</option>
+                  <option value="125">125</option>
+                  <option value="160">160</option>
+                  <option value="200">200</option>
+                  <option value="320">320</option>
+                  <option value="400">400</option>
+                  <option value="800">800</option>
+                  <option value="1600">1600</option>
+                  <option value="3200">3200</option>
+                  <option value="6400">6400</option>
+                </select>
               </label>
               <label class="field">
                 <span>Facteur par stop (%)</span>

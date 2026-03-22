@@ -872,14 +872,69 @@ document.addEventListener('DOMContentLoaded', () => {
       ]
     },
     {
-      id: 'tmax',
-      label: 'T-Max Dev.',
+      id: 'tmax400',
+      label: 'Kodak T-Max 400 (T-Max Dev)',
       tag: 'N&B',
       baths: [
-        { name: 'Développeur', duration: '08:00', message: '24°C — 10 inv. 1ère min, puis 2 inv./30s', agit: true, freq: 30 },
+        { name: 'Développeur (1+4)', duration: '06:00', message: '20°C — Agit. 30s puis 5 inv/30s', agit: true, freq: 30 },
         { name: 'Stop Bath', duration: '01:00', message: 'Agitation continue', agit: false },
-        { name: 'Fixateur', duration: '05:00', message: '30s agitation, puis 10s/min', agit: true, freq: 60 },
+        { name: 'Fixateur Rapid', duration: '05:00', message: '10 inv. 1ère min, puis 5 inv./min', agit: true, freq: 60 },
         { name: 'Lavage', duration: '10:00', message: 'Eau courante', agit: false },
+      ]
+    },
+    {
+      id: 'hp5_id11',
+      label: 'Ilford HP5+ 400 (ID-11)',
+      tag: 'N&B',
+      baths: [
+        { name: 'Développeur ID-11 (Stock)', duration: '07:30', message: '20°C — 10 inv. 1ère min, puis 4 inv./min', agit: true, freq: 60 },
+        { name: 'Stop Bath', duration: '00:30', message: 'Agitation continue', agit: false },
+        { name: 'Fixateur Rapid', duration: '03:00', message: '4 inv./min', agit: true, freq: 60 },
+        { name: 'Lavage', duration: '10:00', message: 'Méthode Ilford', agit: false },
+      ]
+    },
+    {
+      id: 'fp4_id11',
+      label: 'Ilford FP4+ 125 (ID-11)',
+      tag: 'N&B',
+      baths: [
+        { name: 'Développeur ID-11 (Stock)', duration: '08:30', message: '20°C — 10 inv. 1ère min, puis 4 inv./min', agit: true, freq: 60 },
+        { name: 'Stop Bath', duration: '00:30', message: 'Agitation continue', agit: false },
+        { name: 'Fixateur Rapid', duration: '03:00', message: '4 inv./min', agit: true, freq: 60 },
+        { name: 'Lavage', duration: '10:00', message: 'Méthode Ilford', agit: false },
+      ]
+    },
+    {
+      id: 'trix_d76',
+      label: 'Kodak Tri-X 400 (D-76)',
+      tag: 'N&B',
+      baths: [
+        { name: 'Développeur D-76 (Stock)', duration: '06:45', message: '20°C — Agitation 5 inv/30s', agit: true, freq: 30 },
+        { name: 'Stop Bath', duration: '01:00', message: 'Agitation continue', agit: false },
+        { name: 'Fixateur', duration: '05:00', message: 'Agitation 5 inv/min', agit: true, freq: 60 },
+        { name: 'Lavage', duration: '10:00', message: 'Eau courante', agit: false },
+      ]
+    },
+    {
+      id: 'kentmere400',
+      label: 'Kentmere 400 (Rodinal 1+25)',
+      tag: 'N&B',
+      baths: [
+        { name: 'Développeur Rodinal', duration: '05:30', message: '20°C — Agitation 1ère min puis 4 inv./min', agit: true, freq: 60 },
+        { name: 'Stop Bath', duration: '01:00', message: 'Agitation continue', agit: false },
+        { name: 'Fixateur', duration: '04:00', message: 'Agitation 5 inv/min', agit: true, freq: 60 },
+        { name: 'Lavage', duration: '10:00', message: 'Eau courante', agit: false },
+      ]
+    },
+    {
+      id: 'delta3200',
+      label: 'Ilford Delta 3200 (Microphen)',
+      tag: 'N&B',
+      baths: [
+        { name: 'Développeur Microphen (Stock)', duration: '09:00', message: '20°C — (Poussé à 3200 ASA) 4 inv./min', agit: true, freq: 60 },
+        { name: 'Stop Bath', duration: '00:30', message: 'Agitation continue', agit: false },
+        { name: 'Fixateur Rapid', duration: '05:00', message: 'Agitation 4 inv./min', agit: true, freq: 60 },
+        { name: 'Lavage', duration: '10:00', message: 'Méthode Ilford', agit: false },
       ]
     },
   ];
@@ -1117,17 +1172,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const t = btn.dataset.temp;
       document.getElementById('temp-ref').value = t;
       document.getElementById('temp-real').value = t;
-      updateCorrectionPreviews();
-    });
-  });
-
-  // ISO shortcuts
-  document.querySelectorAll('.btn-iso-preset').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const iso = btn.dataset.iso;
-      const wrap = btn.closest('.iso-ref-wrap');
-      wrap.querySelector('input').value = iso;
       updateCorrectionPreviews();
     });
   });

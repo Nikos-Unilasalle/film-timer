@@ -801,7 +801,7 @@ document.addEventListener('DOMContentLoaded', () => {
       label: 'C-41 Kodak',
       tag: 'Couleur',
       baths: [
-        { name: 'Développeur C-41', duration: '03:15', message: 'Agitation 30s, puis 10s/min. 38°C ±0.15°C', agit: true, freq: 60 },
+        { name: 'Révélateur C-41', duration: '03:15', message: 'Agitation 30s, puis 10s/min. 38°C ±0.15°C', agit: true, freq: 60 },
         { name: 'Blix', duration: '06:30', message: 'Agitation continue les 30 premières sec', agit: true, freq: 30 },
         { name: 'Stabilisateur', duration: '01:00', message: '5 agitations douces', agit: false },
       ]
@@ -811,7 +811,7 @@ document.addEventListener('DOMContentLoaded', () => {
       label: 'Colortex C-41',
       tag: 'Couleur',
       baths: [
-        { name: 'Développeur', duration: '03:30', message: '38°C — agitation 1 min puis 5 inv./30s', agit: true, freq: 30 },
+        { name: 'Révélateur', duration: '03:30', message: '38°C — agitation 1 min puis 5 inv./30s', agit: true, freq: 30 },
         { name: 'Blix', duration: '08:00', message: 'Agitation modérée', agit: true, freq: 60 },
         { name: 'Stabilisateur', duration: '01:00', message: 'Pas de rinçage après', agit: false },
       ]
@@ -821,7 +821,7 @@ document.addEventListener('DOMContentLoaded', () => {
       label: 'Fomadon LQN',
       tag: 'N&B',
       baths: [
-        { name: 'Développeur', duration: '08:00', message: '20°C — 5 inv. 1ère min, puis 5 inv./min', agit: true, freq: 60 },
+        { name: 'Révélateur', duration: '08:00', message: '20°C — 5 inv. 1ère min, puis 5 inv./min', agit: true, freq: 60 },
         { name: 'Stop Bath', duration: '01:00', message: 'Agitation continue', agit: false },
         { name: 'Fixateur', duration: '05:00', message: '5 inv. 1ère min, puis 5 inv./2min', agit: true, freq: 120 },
         { name: 'Lavage', duration: '10:00', message: 'Eau courante 20°C', agit: false },
@@ -832,7 +832,7 @@ document.addEventListener('DOMContentLoaded', () => {
       label: 'Fomadon Excel',
       tag: 'N&B',
       baths: [
-        { name: 'Développeur', duration: '07:00', message: '20°C — agitation 30s, puis 5 inv./min', agit: true, freq: 60 },
+        { name: 'Révélateur', duration: '07:00', message: '20°C — agitation 30s, puis 5 inv./min', agit: true, freq: 60 },
         { name: 'Stop Bath', duration: '01:00', message: 'Agitation continue', agit: false },
         { name: 'Fixateur', duration: '05:00', message: '5 inv. 1ère min, puis 5 inv./2min', agit: true, freq: 120 },
         { name: 'Lavage', duration: '10:00', message: 'Eau courante', agit: false },
@@ -843,7 +843,7 @@ document.addEventListener('DOMContentLoaded', () => {
       label: 'Rodinal 1+50',
       tag: 'N&B',
       baths: [
-        { name: 'Développeur', duration: '11:00', message: '20°C — agitation 1ère min, puis 3 inv./min', agit: true, freq: 60 },
+        { name: 'Révélateur', duration: '11:00', message: '20°C — agitation 1ère min, puis 3 inv./min', agit: true, freq: 60 },
         { name: 'Stop Bath', duration: '01:00', message: 'Agitation continue', agit: false },
         { name: 'Fixateur', duration: '05:00', message: '30s agitation, puis 10s/min', agit: true, freq: 60 },
         { name: 'Lavage', duration: '10:00', message: 'Eau courante', agit: false },
@@ -854,7 +854,7 @@ document.addEventListener('DOMContentLoaded', () => {
       label: 'Ilford ID-11 1+1',
       tag: 'N&B',
       baths: [
-        { name: 'Développeur', duration: '13:00', message: '20°C — 10 inv. 1ère min, puis 4 inv./min', agit: true, freq: 60 },
+        { name: 'Révélateur', duration: '13:00', message: '20°C — 10 inv. 1ère min, puis 4 inv./min', agit: true, freq: 60 },
         { name: 'Stop Bath', duration: '01:00', message: 'Agitation continue', agit: false },
         { name: 'Fixateur Rapid', duration: '05:00', message: '10 inv. 1ère min, puis 5 inv./min', agit: true, freq: 60 },
         { name: 'Lavage final', duration: '10:00', message: 'Méthode Ilford : 5 inv. x 3 bains', agit: false },
@@ -865,7 +865,7 @@ document.addEventListener('DOMContentLoaded', () => {
       label: 'HC-110 dil. B',
       tag: 'N&B',
       baths: [
-        { name: 'Développeur', duration: '07:00', message: '20°C — agitation 30s, puis 5 inv./30s', agit: true, freq: 30 },
+        { name: 'Révélateur', duration: '07:00', message: '20°C — agitation 30s, puis 5 inv./30s', agit: true, freq: 30 },
         { name: 'Stop Bath', duration: '01:00', message: 'Agitation continue', agit: false },
         { name: 'Fixateur', duration: '05:00', message: '30s agitation, puis 10s/min', agit: true, freq: 60 },
         { name: 'Lavage', duration: '10:00', message: 'Eau courante', agit: false },
@@ -876,7 +876,7 @@ document.addEventListener('DOMContentLoaded', () => {
       label: 'Kodak T-Max 400 (T-Max Dev)',
       tag: 'N&B',
       baths: [
-        { name: 'Développeur (1+4)', duration: '06:00', message: '20°C — Agit. 30s puis 5 inv/30s', agit: true, freq: 30 },
+        { name: 'Révélateur (1+4)', duration: '06:00', message: '20°C — Agit. 30s puis 5 inv/30s', agit: true, freq: 30 },
         { name: 'Stop Bath', duration: '01:00', message: 'Agitation continue', agit: false },
         { name: 'Fixateur Rapid', duration: '05:00', message: '10 inv. 1ère min, puis 5 inv./min', agit: true, freq: 60 },
         { name: 'Lavage', duration: '10:00', message: 'Eau courante', agit: false },
@@ -887,7 +887,7 @@ document.addEventListener('DOMContentLoaded', () => {
       label: 'Ilford HP5+ 400 (ID-11)',
       tag: 'N&B',
       baths: [
-        { name: 'Développeur ID-11 (Stock)', duration: '07:30', message: '20°C — 10 inv. 1ère min, puis 4 inv./min', agit: true, freq: 60 },
+        { name: 'Révélateur ID-11 (Stock)', duration: '07:30', message: '20°C — 10 inv. 1ère min, puis 4 inv./min', agit: true, freq: 60 },
         { name: 'Stop Bath', duration: '00:30', message: 'Agitation continue', agit: false },
         { name: 'Fixateur Rapid', duration: '03:00', message: '4 inv./min', agit: true, freq: 60 },
         { name: 'Lavage', duration: '10:00', message: 'Méthode Ilford', agit: false },
@@ -898,7 +898,7 @@ document.addEventListener('DOMContentLoaded', () => {
       label: 'Ilford FP4+ 125 (ID-11)',
       tag: 'N&B',
       baths: [
-        { name: 'Développeur ID-11 (Stock)', duration: '08:30', message: '20°C — 10 inv. 1ère min, puis 4 inv./min', agit: true, freq: 60 },
+        { name: 'Révélateur ID-11 (Stock)', duration: '08:30', message: '20°C — 10 inv. 1ère min, puis 4 inv./min', agit: true, freq: 60 },
         { name: 'Stop Bath', duration: '00:30', message: 'Agitation continue', agit: false },
         { name: 'Fixateur Rapid', duration: '03:00', message: '4 inv./min', agit: true, freq: 60 },
         { name: 'Lavage', duration: '10:00', message: 'Méthode Ilford', agit: false },
@@ -909,7 +909,7 @@ document.addEventListener('DOMContentLoaded', () => {
       label: 'Kodak Tri-X 400 (D-76)',
       tag: 'N&B',
       baths: [
-        { name: 'Développeur D-76 (Stock)', duration: '06:45', message: '20°C — Agitation 5 inv/30s', agit: true, freq: 30 },
+        { name: 'Révélateur D-76 (Stock)', duration: '06:45', message: '20°C — Agitation 5 inv/30s', agit: true, freq: 30 },
         { name: 'Stop Bath', duration: '01:00', message: 'Agitation continue', agit: false },
         { name: 'Fixateur', duration: '05:00', message: 'Agitation 5 inv/min', agit: true, freq: 60 },
         { name: 'Lavage', duration: '10:00', message: 'Eau courante', agit: false },
@@ -920,7 +920,7 @@ document.addEventListener('DOMContentLoaded', () => {
       label: 'Kentmere 400 (Rodinal 1+25)',
       tag: 'N&B',
       baths: [
-        { name: 'Développeur Rodinal', duration: '05:30', message: '20°C — Agitation 1ère min puis 4 inv./min', agit: true, freq: 60 },
+        { name: 'Révélateur Rodinal', duration: '05:30', message: '20°C — Agitation 1ère min puis 4 inv./min', agit: true, freq: 60 },
         { name: 'Stop Bath', duration: '01:00', message: 'Agitation continue', agit: false },
         { name: 'Fixateur', duration: '04:00', message: 'Agitation 5 inv/min', agit: true, freq: 60 },
         { name: 'Lavage', duration: '10:00', message: 'Eau courante', agit: false },
@@ -931,7 +931,7 @@ document.addEventListener('DOMContentLoaded', () => {
       label: 'Ilford Delta 3200 (Microphen)',
       tag: 'N&B',
       baths: [
-        { name: 'Développeur Microphen (Stock)', duration: '09:00', message: '20°C — (Poussé à 3200 ASA) 4 inv./min', agit: true, freq: 60 },
+        { name: 'Révélateur Microphen (Stock)', duration: '09:00', message: '20°C — (Poussé à 3200 ASA) 4 inv./min', agit: true, freq: 60 },
         { name: 'Stop Bath', duration: '00:30', message: 'Agitation continue', agit: false },
         { name: 'Fixateur Rapid', duration: '05:00', message: 'Agitation 4 inv./min', agit: true, freq: 60 },
         { name: 'Lavage', duration: '10:00', message: 'Méthode Ilford', agit: false },
@@ -1183,7 +1183,7 @@ document.addEventListener('DOMContentLoaded', () => {
   updateCorrectionPreviews();
   // Pre-populate default baths (blank start)
   const examples = [
-    { name: 'Développeur', duration: '06:00', message: 'Agitation continue 30s puis 5 inv./min', agit: true },
+    { name: 'Révélateur', duration: '06:00', message: 'Agitation continue 30s puis 5 inv./min', agit: true },
     { name: 'Stop Bath', duration: '01:00', message: 'Agitation continue', agit: false },
     { name: 'Fixateur', duration: '05:00', message: '30s agitation, puis 5 inv. toutes les min', agit: true },
     { name: 'Lavage', duration: '10:00', message: 'Eau courante', agit: false },

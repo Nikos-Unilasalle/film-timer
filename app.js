@@ -1214,4 +1214,8 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('settings-overlay').classList.add('hidden');
     }
   });
+
+  document.getElementById('btn-lang').addEventListener('click', () => {
+    switchLang(currentLang === 'fr' ? 'en' : 'fr');
+  });
 });

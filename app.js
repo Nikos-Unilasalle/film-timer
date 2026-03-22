@@ -486,7 +486,7 @@ function startSequence() {
   state.running = true;
   buildSidebar();
   showView('view-timer');
-  startBath(0);
+  startBath(0, true);
 }
 
 function buildSidebar() {
@@ -509,11 +509,11 @@ function updateSidebarActive(idx) {
   });
 }
 
-function startBath(index) {
+function startBath(index, startPaused = false) {
   if (index >= state.baths.length) { endSequence(); return; }
   const bath = state.baths[index];
   state.currentIndex = index;
-  state.paused = false;
+  state.paused = startPaused;
 
   // Apply corrections if flagged for this bath
   let correctedDuration = bath.duration;
@@ -541,7 +541,7 @@ function startBath(index) {
   const msg = [bath.message, correctionNote].filter(Boolean).join(' ');
   document.getElementById('timer-bath-message').textContent = msg;
   document.getElementById('timer-total').textContent = formatDuration(correctedDuration);
-  document.getElementById('btn-pause').textContent = '⏸ Pause';
+  document.getElementById('btn-pause').textContent = state.paused ? '▶ Commencer' : '⏸ Pause';
   document.getElementById('btn-next').classList.add('hidden');
   document.getElementById('agitation-indicator').classList.add('hidden');
 
@@ -727,10 +727,18 @@ document.addEventListener('DOMContentLoaded', () => {
     startSequence();
   });
 
-  // Pause
+  // Pause / Start
   document.getElementById('btn-pause').addEventListener('click', () => {
     state.paused = !state.paused;
-    document.getElementById('btn-pause').textContent = state.paused ? '▶ Reprendre' : '⏸ Pause';
+    // If it was "Commencer" (starting state), once clicked it becomes "Pause".
+    // If it was "Pause", it becomes "Reprendre".
+    // To handle this cleanly: if it's paused, we show "Reprendre". But at the very start, it should read "Commencer".
+    // Since "Commencer" is handled in `startBath`, here we simply toggle between "Reprendre" and "Pause" after the first click.
+    if (state.paused) {
+      document.getElementById('btn-pause').textContent = '▶ Reprendre';
+    } else {
+      document.getElementById('btn-pause').textContent = '⏸ Pause';
+    }
   });
 
   // Next (manual)
@@ -741,9 +749,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Stop
   document.getElementById('btn-stop').addEventListener('click', () => {
-    clearAllIntervals();
-    state.running = false;
-    showView('view-setup');
+    if (confirm("Voulez-vous vraiment arrêter la séquence en cours ?")) {
+      clearAllIntervals();
+      state.running = false;
+      showView('view-setup');
+    }
   });
 
   // Restart

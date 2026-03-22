@@ -916,35 +916,73 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.baths-header').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
+  function getCustomPresets() {
+    try {
+      const d = localStorage.getItem('filmtimer_presets');
+      return d ? JSON.parse(d) : [];
+    } catch { return []; }
+  }
+  function saveCustomPresets(arr) {
+    localStorage.setItem('filmtimer_presets', JSON.stringify(arr));
+  }
+
   // Build preset dropdown
   const dropdown = document.getElementById('preset-dropdown');
   const selectBtn = document.getElementById('preset-select-btn');
   const selectWrap = document.querySelector('.preset-select-wrap');
 
-  // Group by tag
-  const groups = {};
-  PRESETS.forEach(p => {
-    if (!groups[p.tag]) groups[p.tag] = [];
-    groups[p.tag].push(p);
-  });
+  function renderPresetsDropdown() {
+    dropdown.innerHTML = '';
+    const allPresets = [...PRESETS, ...getCustomPresets()];
 
-  Object.entries(groups).forEach(([tag, presets]) => {
-    const groupLabel = document.createElement('div');
-    groupLabel.className = 'preset-group-label';
-    groupLabel.textContent = tag === 'Couleur' ? '🌸 Couleur' : '■ N&B';
-    dropdown.appendChild(groupLabel);
-
-    presets.forEach(preset => {
-      const opt = document.createElement('button');
-      opt.className = 'preset-option';
-      opt.innerHTML = `<span class="preset-opt-name">${preset.label}</span><span class="preset-opt-count">${preset.baths.length} bains</span>`;
-      opt.addEventListener('click', () => {
-        getAudioCtx();
-        loadPreset(preset);
-      });
-      dropdown.appendChild(opt);
+    // Group by tag
+    const groups = {};
+    allPresets.forEach(p => {
+      const t = p.tag || 'Mes Présets';
+      if (!groups[t]) groups[t] = [];
+      groups[t].push(p);
     });
-  });
+
+    Object.entries(groups).forEach(([tag, presets]) => {
+      const groupLabel = document.createElement('div');
+      groupLabel.className = 'preset-group-label';
+      if (tag === 'Couleur') groupLabel.textContent = '🌸 Couleur';
+      else if (tag === 'N&B') groupLabel.textContent = '■ N&B';
+      else groupLabel.textContent = `💾 ${tag}`;
+      dropdown.appendChild(groupLabel);
+
+      presets.forEach(preset => {
+        const opt = document.createElement('button');
+        opt.className = 'preset-option';
+        
+        // Add delete button if it's a custom preset
+        let delBtn = '';
+        if (preset.isCustom) {
+           delBtn = `<span class="preset-action-del" data-id="${preset.id}" title="Supprimer">✕</span>`;
+        }
+
+        opt.innerHTML = `<span class="preset-opt-name">${preset.label}</span><div style="display:flex;align-items:center;gap:0.7rem"><span class="preset-opt-count">${preset.baths.length} bains</span>${delBtn}</div>`;
+        
+        opt.addEventListener('click', (e) => {
+          if (e.target.classList.contains('preset-action-del')) {
+            e.stopPropagation();
+            if (confirm(`Supprimer définitivement le préset "${preset.label}" ?`)) {
+              let c = getCustomPresets();
+              c = c.filter(x => x.id !== preset.id);
+              saveCustomPresets(c);
+              renderPresetsDropdown();
+            }
+            return;
+          }
+          getAudioCtx();
+          loadPreset(preset);
+        });
+        dropdown.appendChild(opt);
+      });
+    });
+  }
+
+  renderPresetsDropdown();
 
   selectBtn.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -953,6 +991,98 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.addEventListener('click', () => {
     selectWrap.classList.remove('open');
+  });
+
+  // Action Buttons: Save, Export, Import
+  document.getElementById('btn-save-preset').addEventListener('click', () => {
+    collectConfig(); // Ensure state.baths is up to date
+    if (!state.baths || state.baths.length === 0) {
+      alert("Ajoutez au moins un bain avant d'enregistrer !");
+      return;
+    }
+    const name = prompt("Nom de votre séquence de développement :");
+    if (!name || !name.trim()) return;
+
+    // Build preset structure
+    const preset = {
+      id: 'custom_' + Date.now(),
+      label: name.trim(),
+      tag: 'Mes Présets',
+      isCustom: true,
+      baths: state.baths.map(b => ({
+        name: b.name,
+        duration: formatDurationShort(b.duration), // Re-convert back to mm:ss for preset compatibility
+        message: b.message,
+        agit: b.agitation !== null,
+        freq: b.agitation ? b.agitation.freq : null
+      }))
+    };
+
+    const c = getCustomPresets();
+    c.push(preset);
+    saveCustomPresets(c);
+    renderPresetsDropdown();
+    alert("Séquence enregistrée ! Elle sera disponible la prochaine fois dans le menu.");
+  });
+
+  // Format integer seconds to mm:ss for export
+  function formatDurationShort(sec) {
+     const m = Math.floor(sec / 60);
+     const s = sec % 60;
+     return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  }
+
+  document.getElementById('btn-export-preset').addEventListener('click', () => {
+    collectConfig();
+    if (!state.baths || state.baths.length === 0) return alert("Rien à exporter.");
+    const preset = {
+      id: 'export_' + Date.now(),
+      label: "Export FilmTimer",
+      tag: "Mes Présets",
+      isCustom: true,
+      baths: state.baths.map(b => ({
+        name: b.name,
+        duration: formatDurationShort(b.duration),
+        message: b.message,
+        agit: b.agitation !== null,
+        freq: b.agitation ? b.agitation.freq : null
+      }))
+    };
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(preset, null, 2));
+    const a = document.createElement('a');
+    a.href = dataStr;
+    a.download = "filmtimer_preset.json";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  });
+
+  document.getElementById('file-import-preset').addEventListener('change', (e) => {
+     const file = e.target.files[0];
+     if (!file) return;
+     const reader = new FileReader();
+     reader.onload = function(evt) {
+        try {
+           const parsed = JSON.parse(evt.target.result);
+           if (!parsed.baths || !Array.isArray(parsed.baths)) throw new Error("Format JSON invalide.");
+           
+           parsed.id = 'imported_' + Date.now();
+           parsed.tag = 'Mes Présets';
+           parsed.isCustom = true;
+           if (!parsed.label) parsed.label = "Importé";
+
+           const c = getCustomPresets();
+           c.push(parsed);
+           saveCustomPresets(c);
+           renderPresetsDropdown();
+           alert(`Préset "${parsed.label}" importé avec succès !`);
+           loadPreset(parsed);
+        } catch (err) {
+           alert("Erreur lors de la lecture du fichier : " + err.message);
+        }
+        e.target.value = ''; // Reset input
+     };
+     reader.readAsText(file);
   });
 
   // Fullscreen button

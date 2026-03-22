@@ -37,12 +37,20 @@
       <div class="card presets-card">
         <div class="presets-header">
           <h2>⚗ Préset</h2>
-          <div class="preset-select-wrap" id="preset-select-wrap">
-            <button class="preset-select-btn" id="preset-select-btn">
-              <span id="preset-select-label">Choisir un préset…</span>
-              <span class="preset-select-arrow">▾</span>
-            </button>
-            <div class="preset-dropdown" id="preset-dropdown"></div>
+          <div class="preset-top-actions">
+            <div class="preset-select-wrap" id="preset-select-wrap">
+              <button class="preset-select-btn" id="preset-select-btn">
+                <span id="preset-select-label">Choisir un préset…</span>
+                <span class="preset-select-arrow">▾</span>
+              </button>
+              <div class="preset-dropdown" id="preset-dropdown"></div>
+            </div>
+            <div class="preset-action-buttons">
+              <button class="btn btn-outline btn-sm" id="btn-save-preset">💾 Enregistrer</button>
+              <button class="btn btn-outline btn-sm" id="btn-export-preset">⬇️ Exporter</button>
+              <label class="btn btn-outline btn-sm" for="file-import-preset">⬆️ Importer</label>
+              <input type="file" id="file-import-preset" accept=".json" class="hidden" />
+            </div>
           </div>
         </div>
       </div>

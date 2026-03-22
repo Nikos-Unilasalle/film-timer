@@ -17,9 +17,10 @@
       <span class="brand-name">FilmTimer</span>
     </div>
     <div class="nav-actions">
+      <button id="btn-lang" class="btn-ghost lang-toggle" title="Language">FR / EN</button>
       <button id="btn-fullscreen" class="btn-ghost" title="Plein écran">⛶</button>
-      <button id="btn-print" class="btn-ghost" title="Fiche mémo">🖨 Mémo</button>
-      <button id="btn-settings" class="btn-ghost" title="Paramètres">⚙ Paramètres</button>
+      <button id="btn-print" class="btn-ghost" title="Fiche mémo" data-i18n="print">🖨 Mémo</button>
+      <button id="btn-settings" class="btn-ghost" title="Paramètres" data-i18n="settings">⚙ Paramètres</button>
     </div>
   </nav>
 
@@ -29,26 +30,26 @@
     <!-- ===== VIEW: SETUP ===== -->
     <section id="view-setup" class="view active">
       <div class="setup-header">
-        <h1>Configurer la séquence</h1>
-        <p class="subtitle">Renseignez vos bains, durées et options de retournement</p>
+        <h1 data-i18n="setup_title">Configurer la séquence</h1>
+        <p class="subtitle" data-i18n="setup_subtitle">Renseignez vos bains, durées et options de retournement</p>
       </div>
 
       <!-- Presets -->
       <div class="card presets-card">
         <div class="presets-header">
-          <h2>⚗ Préset</h2>
+          <h2 data-i18n="preset_title">⚗ Préset</h2>
           <div class="preset-top-actions">
             <div class="preset-select-wrap" id="preset-select-wrap">
               <button class="preset-select-btn" id="preset-select-btn">
-                <span id="preset-select-label">Choisir un préset…</span>
+                <span id="preset-select-label" data-i18n="preset_default">Choisir un préset…</span>
                 <span class="preset-select-arrow">▾</span>
               </button>
               <div class="preset-dropdown" id="preset-dropdown"></div>
             </div>
             <div class="preset-action-buttons">
-              <button class="btn btn-outline btn-sm" id="btn-save-preset">💾 Enregistrer</button>
-              <button class="btn btn-outline btn-sm" id="btn-export-preset">⬇️ Exporter</button>
-              <label class="btn btn-outline btn-sm" for="file-import-preset">⬆️ Importer</label>
+              <button class="btn btn-outline btn-sm" id="btn-save-preset" data-i18n="btn_save">💾 Enregistrer</button>
+              <button class="btn btn-outline btn-sm" id="btn-export-preset" data-i18n="btn_export">⬇️ Exporter</button>
+              <label class="btn btn-outline btn-sm" for="file-import-preset" data-i18n="btn_import">⬆️ Importer</label>
               <input type="file" id="file-import-preset" accept=".json" class="hidden" />
             </div>
           </div>
@@ -57,59 +58,59 @@
 
       <!-- Global options -->
       <div class="card global-options">
-        <h2>Options globales</h2>
+        <h2 data-i18n="global_title">Options globales</h2>
         <div class="options-grid">
           <label class="field">
-            <span>Offset sonnerie fin de bain (s)</span>
+            <span data-i18n="global_offset">Offset sonnerie fin de bain (s)</span>
             <input type="number" id="global-offset" value="5" min="0" max="60" />
-            <span class="field-hint">Sonnerie X secondes avant la fin</span>
+            <span class="field-hint" data-i18n="global_offset_hint">Sonnerie X secondes avant la fin</span>
           </label>
           <label class="field">
-            <span>Enchainement automatique</span>
+            <span data-i18n="global_auto">Enchainement automatique</span>
             <div class="toggle-wrap">
               <input type="checkbox" id="global-auto" class="toggle-input" />
               <span class="toggle-track"></span>
-              <span class="toggle-label" id="auto-label">Manuel</span>
+              <span class="toggle-label" id="auto-label" data-i18n="auto_manual">Manuel</span>
             </div>
           </label>
         </div>
 
         <!-- Agitation global defaults -->
         <div class="agitation-defaults">
-          <h3>Retournements — réglages par défaut</h3>
+          <h3 data-i18n="agit_title">Retournements — réglages par défaut</h3>
           <div class="options-grid">
             <label class="field">
-              <span>Fréquence (toutes les X secondes)</span>
+              <span data-i18n="agit_freq">Fréquence (toutes les X secondes)</span>
               <input type="number" id="global-agit-freq" value="60" min="5" max="600" />
             </label>
             <label class="field">
-              <span>Durée sonnerie (s)</span>
+              <span data-i18n="agit_dur">Durée sonnerie (s)</span>
               <input type="number" id="global-agit-dur" value="3" min="1" max="10" />
             </label>
             <label class="field">
-              <span>Son retournement</span>
+              <span data-i18n="agit_sound">Son retournement</span>
               <select id="global-agit-sound">
-                <option value="click">Clic</option>
-                <option value="beep">Bip court</option>
-                <option value="bell" selected>Cloche</option>
-                <option value="ping">Ping</option>
-                <option value="wood">Bloc bois</option>
-                <option value="soft">Doux</option>
-                <option value="double">Double bip</option>
-                <option value="low">Grave</option>
-                <option value="glass">Verre</option>
+                <option value="click" data-i18n="sound_click">Clic</option>
+                <option value="beep" data-i18n="sound_beep">Bip court</option>
+                <option value="bell" selected data-i18n="sound_bell">Cloche</option>
+                <option value="ping" data-i18n="sound_ping">Ping</option>
+                <option value="wood" data-i18n="sound_wood">Bloc bois</option>
+                <option value="soft" data-i18n="sound_soft">Doux</option>
+                <option value="double" data-i18n="sound_double">Double bip</option>
+                <option value="low" data-i18n="sound_low">Grave</option>
+                <option value="glass" data-i18n="sound_glass">Verre</option>
               </select>
             </label>
             <label class="field">
-              <span>Son fin de bain</span>
+              <span data-i18n="end_sound">Son fin de bain</span>
               <select id="global-end-sound">
-                <option value="beep">Bip</option>
-                <option value="alarm" selected>Alarme</option>
-                <option value="chime">Carillon</option>
-                <option value="bell">Cloche</option>
-                <option value="ping">Ping aigu</option>
-                <option value="glass">Verre</option>
-                <option value="fanfare">Fanfare</option>
+                <option value="beep" data-i18n="sound_beep">Bip</option>
+                <option value="alarm" selected data-i18n="sound_alarm">Alarme</option>
+                <option value="chime" data-i18n="sound_chime">Carillon</option>
+                <option value="bell" data-i18n="sound_bell">Cloche</option>
+                <option value="ping" data-i18n="sound_ping">Ping aigu</option>
+                <option value="glass" data-i18n="sound_glass">Verre</option>
+                <option value="fanfare" data-i18n="sound_fanfare">Fanfare</option>
               </select>
             </label>
           </div>
@@ -118,13 +119,13 @@
 
       <!-- Corrections -->
       <div class="card corrections-card">
-        <h2>🌡 Corrections temporelles</h2>
+        <h2 data-i18n="corr_title">🌡 Corrections temporelles</h2>
         <div class="corrections-grid corrections-grid-3">
           <div class="correction-block">
-            <h3>Température du bain</h3>
+            <h3 data-i18n="corr_temp">Température du bain</h3>
             <div class="options-grid">
               <label class="field">
-                <span>Temp. de référence (°C)</span>
+                <span data-i18n="temp_ref">Temp. de référence (°C)</span>
                 <div class="temp-ref-wrap">
                   <input type="number" id="temp-ref" value="20" min="5" max="50" step="0.5" />
                   <button class="btn-temp-preset btn-ghost btn-sm" data-temp="20">N&amp;B</button>
@@ -132,39 +133,39 @@
                 </div>
               </label>
               <label class="field">
-                <span>Temp. réelle (°C)</span>
+                <span data-i18n="temp_real">Temp. réelle (°C)</span>
                 <input type="number" id="temp-real" value="20" min="5" max="50" step="0.5" />
               </label>
               <div class="field">
-                <span>Correction calculée</span>
+                <span data-i18n="corr_calc">Correction calculée</span>
                 <div id="temp-factor-display" class="factor-pill neutral">× 1.00</div>
-                <span class="field-hint" id="temp-hint">Aucun écart</span>
+                <span class="field-hint" id="temp-hint" data-i18n="temp_neutral">Aucun écart</span>
               </div>
             </div>
           </div>
           <div class="correction-block">
-            <h3>Épuisement du révélateur</h3>
+            <h3 data-i18n="corr_exhaust">Épuisement du révélateur</h3>
             <div class="options-grid">
               <label class="field">
-                <span>Pellicules 36p déjà développées</span>
+                <span data-i18n="roll_count">Pellicules 36p déjà développées</span>
                 <input type="number" id="roll-count" value="0" min="0" max="100" />
               </label>
               <label class="field">
-                <span>Compensation (% par pellicule)</span>
+                <span data-i18n="roll_comp">Compensation (% par pellicule)</span>
                 <input type="number" id="roll-compensation" value="10" min="0" max="30" step="1" />
               </label>
               <div class="field">
-                <span>Ajout de temps (bains cochés)</span>
+                <span data-i18n="roll_added">Ajout de temps (bains cochés)</span>
                 <div id="roll-factor-display" class="factor-pill neutral">+ 0%</div>
-                <span class="field-hint">Activer ↓ par bain révélateur</span>
+                <span class="field-hint" data-i18n="roll_hint">Activer ↓ par bain révélateur</span>
               </div>
             </div>
           </div>
           <div class="correction-block">
-            <h3>🎥 Compensation ISO / Push-Pull</h3>
+            <h3 data-i18n="corr_iso">🎥 Compensation ISO / Push-Pull</h3>
             <div class="options-grid">
               <label class="field">
-                <span>ISO de référence (vitesse du film)</span>
+                <span data-i18n="iso_ref">ISO de référence (vitesse du film)</span>
                 <select id="iso-ref">
                   <option value="25">25</option>
                   <option value="50">50</option>
@@ -181,7 +182,7 @@
                 </select>
               </label>
               <label class="field">
-                <span>ISO utilisé à la prise de vue</span>
+                <span data-i18n="iso_real">ISO utilisé à la prise de vue</span>
                 <select id="iso-real">
                   <option value="25">25</option>
                   <option value="50">50</option>
@@ -199,19 +200,19 @@
                 </select>
               </label>
               <label class="field">
-                <span>Facteur par stop (%)</span>
+                <span data-i18n="iso_factor">Facteur par stop (%)</span>
                 <div class="iso-factor-wrap">
                   <input type="number" id="iso-stop-factor" value="33" min="10" max="60" step="1" />
-                  <span class="field-hint" style="margin-top:0">Défaut : 33% / stop</span>
+                  <span class="field-hint" style="margin-top:0" data-i18n="iso_factor_hint">Défaut : 33% / stop</span>
                 </div>
               </label>
               <div class="field">
-                <span>Correction calculée</span>
+                <span data-i18n="corr_calc">Correction calculée</span>
                 <div id="iso-factor-display" class="factor-pill neutral">× 1.00</div>
                 <span class="field-hint" id="iso-hint">0 stop &mdash; aucun écart</span>
               </div>
             </div>
-            <p class="correction-disclaimer">⚠️ Valeur indicative — vérifiez la fiche technique de votre film/révélateur pour les temps de push.</p>
+            <p class="correction-disclaimer" data-i18n="iso_disclaimer">⚠️ Valeur indicative — vérifiez la fiche technique de votre film/révélateur pour les temps de push.</p>
           </div>
         </div>
       </div>
@@ -219,14 +220,14 @@
       <!-- Baths list -->
       <div class="card">
         <div class="baths-header">
-          <h2>Bains <span id="bath-count-badge" class="badge">0</span></h2>
-          <button id="btn-add-bath" class="btn-primary">+ Ajouter un bain</button>
+          <h2 data-i18n="baths_title">Bains<span id="bath-count-badge" class="badge">0</span></h2>
+          <button id="btn-add-bath" class="btn-primary" data-i18n="btn_add_bath">+ Ajouter un bain</button>
         </div>
         <div id="baths-list" class="baths-list"></div>
       </div>
 
       <div class="setup-footer">
-        <button id="btn-start" class="btn-accent btn-large" disabled>▶ Démarrer la séquence</button>
+        <button id="btn-start" class="btn-accent btn-large" disabled data-i18n="btn_start_seq">▶ Démarrer la séquence</button>
       </div>
     </section>
 
@@ -235,7 +236,7 @@
       <div class="timer-layout">
         <!-- Progress sidebar -->
         <aside class="timer-sidebar">
-          <div class="sequence-label">Séquence</div>
+          <div class="sequence-label" data-i18n="seq_label">Séquence</div>
           <ol id="sidebar-steps" class="sidebar-steps"></ol>
         </aside>
 
@@ -259,13 +260,12 @@
           </div>
 
           <div id="agitation-indicator" class="agitation-indicator hidden">
-            <span class="agit-pulse"></span> Retournement
-          </div>
+            <span class="agit-pulse"></span data-i18n="agit_label">Retournement</div>
 
           <div class="timer-controls">
-            <button id="btn-pause" class="btn-control">⏸ Pause</button>
-            <button id="btn-next" class="btn-control btn-next hidden">Continuer →</button>
-            <button id="btn-stop" class="btn-ghost btn-sm">✕ Arrêter</button>
+            <button id="btn-pause" class="btn-control" data-i18n="btn_pause">⏸ Pause</button>
+            <button id="btn-next" class="btn-control btn-next hidden" data-i18n="btn_next">Continuer →</button>
+            <button id="btn-stop" class="btn-ghost btn-sm" data-i18n="btn_stop">✕ Arrêter</button>
           </div>
         </div>
       </div>
@@ -275,9 +275,9 @@
     <section id="view-done" class="view">
       <div class="done-wrap">
         <div class="done-icon">✓</div>
-        <h1>Séquence terminée !</h1>
-        <p>Toutes les étapes ont été complétées avec succès.</p>
-        <button id="btn-restart" class="btn-accent btn-large">↺ Recommencer</button>
+        <h1 data-i18n="done_title">Séquence terminée !</h1>
+        <p data-i18n="done_text">Toutes les étapes ont été complétées avec succès.</p>
+        <button id="btn-restart" class="btn-accent btn-large" data-i18n="btn_restart">↺ Recommencer</button>
       </div>
     </section>
 
@@ -287,30 +287,30 @@
   <template id="bath-template">
     <div class="bath-item" data-id="" draggable="false">
       <div class="bath-item-header">
-        <div class="bath-drag-handle" title="Glisser pour réordonner">⠿</div>
+        <div class="bath-drag-handle" title="Glisser pour réordonner" data-i18n-title="drag_reorder">⠿</div>
         <span class="bath-index"></span>
-        <input type="text" class="bath-name-input" placeholder="Nom du bain (ex : Révélateur)" />
+        <input type="text" class="bath-name-input" placeholder="Nom du bain (ex : Révélateur)" data-i18n-ph="bath_name_ph" />
         <button class="bath-toggle-expand btn-icon">▾</button>
         <button class="bath-delete btn-icon btn-danger">✕</button>
       </div>
       <div class="bath-item-body">
         <div class="bath-options-grid">
           <label class="field">
-            <span>Durée (mm:ss)</span>
+            <span data-i18n="bath_dur">Durée (mm:ss)</span>
             <input type="text" class="bath-duration" placeholder="05:00" value="05:00" />
           </label>
           <label class="field">
-            <span>Message optionnel</span>
+            <span data-i18n="bath_msg">Message optionnel</span>
             <input type="text" class="bath-message" placeholder="Ex : Agitation douce x2" />
           </label>
           <label class="field">
-            <span>Offset sonnerie fin (s)</span>
+            <span data-i18n="bath_offset">Offset sonnerie fin (s)</span>
             <input type="number" class="bath-offset" value="" placeholder="Défaut global" min="0" max="60" />
           </label>
         </div>
         <div class="bath-agitation-section">
           <label class="field field-inline">
-            <span>Activer les retournements</span>
+            <span data-i18n="bath_agit_en">Activer les retournements</span>
             <div class="toggle-wrap">
               <input type="checkbox" class="bath-agit-enabled toggle-input" />
               <span class="toggle-track"></span>
@@ -323,22 +323,22 @@
                 <input type="number" class="bath-agit-freq" placeholder="Défaut global" min="5" max="600" />
               </label>
               <label class="field">
-                <span>Durée sonnerie (s)</span>
+                <span data-i18n="agit_dur">Durée sonnerie (s)</span>
                 <input type="number" class="bath-agit-dur" placeholder="Défaut global" min="1" max="10" />
               </label>
               <label class="field">
-                <span>Son retournement</span>
+                <span data-i18n="agit_sound">Son retournement</span>
                 <select class="bath-agit-sound">
-                  <option value="">Défaut global</option>
-                  <option value="click">Clic</option>
-                  <option value="beep">Bip court</option>
-                  <option value="bell">Cloche</option>
-                  <option value="ping">Ping</option>
-                  <option value="wood">Bloc bois</option>
-                  <option value="soft">Doux</option>
-                  <option value="double">Double bip</option>
-                  <option value="low">Grave</option>
-                  <option value="glass">Verre</option>
+                  <option value="" data-i18n="default_global">Défaut global</option>
+                  <option value="click" data-i18n="sound_click">Clic</option>
+                  <option value="beep" data-i18n="sound_beep">Bip court</option>
+                  <option value="bell" data-i18n="sound_bell">Cloche</option>
+                  <option value="ping" data-i18n="sound_ping">Ping</option>
+                  <option value="wood" data-i18n="sound_wood">Bloc bois</option>
+                  <option value="soft" data-i18n="sound_soft">Doux</option>
+                  <option value="double" data-i18n="sound_double">Double bip</option>
+                  <option value="low" data-i18n="sound_low">Grave</option>
+                  <option value="glass" data-i18n="sound_glass">Verre</option>
                 </select>
               </label>
             </div>
@@ -346,7 +346,7 @@
         </div>
         <div class="bath-correction-row">
           <label class="field field-inline">
-            <span>Appliquer corrections (temp. + épuisement)</span>
+            <span data-i18n="bath_apply_corr">Appliquer corrections (temp. + épuisement)</span>
             <div class="toggle-wrap">
               <input type="checkbox" class="bath-apply-correction toggle-input" />
               <span class="toggle-track"></span>
@@ -361,10 +361,10 @@
   <div id="print-overlay" class="print-overlay hidden">
     <div class="print-modal">
       <div class="print-modal-header">
-        <h2>Fiche mémo — développement</h2>
+        <h2 data-i18n="memo_title">Fiche mémo — développement</h2>
         <div class="print-modal-actions">
-          <button id="btn-do-print" class="btn-accent">🖨 Imprimer</button>
-          <button id="btn-close-print" class="btn-ghost">✕ Fermer</button>
+          <button id="btn-do-print" class="btn-accent" data-i18n="btn_do_print">🖨 Imprimer</button>
+          <button id="btn-close-print" class="btn-ghost" data-i18n="btn_close">✕ Fermer</button>
         </div>
       </div>
       <div id="print-content" class="print-content"></div>
@@ -375,33 +375,34 @@
   <div id="settings-overlay" class="settings-overlay hidden">
     <div class="settings-modal">
       <div class="settings-header">
-        <h2>⚙ Paramètres audio</h2>
+        <h2 data-i18n="set_title">⚙ Paramètres audio</h2>
         <button id="btn-close-settings" class="btn-ghost">✕</button>
       </div>
       <div class="settings-body">
-        <p class="settings-note">Les sons sont générés via l'API Web Audio. Testez-les ici :</p>
+        <p class="settings-note" data-i18n="set_text">Les sons sont générés via l'API Web Audio. Testez-les ici :</p>
         <div class="sound-test-grid">
-          <button class="btn-sound-test" data-sound="click">Clic</button>
-          <button class="btn-sound-test" data-sound="beep">Bip court</button>
-          <button class="btn-sound-test" data-sound="bell">Cloche</button>
-          <button class="btn-sound-test" data-sound="ping">Ping</button>
-          <button class="btn-sound-test" data-sound="alarm">Alarme</button>
-          <button class="btn-sound-test" data-sound="chime">Carillon</button>
-          <button class="btn-sound-test" data-sound="wood">Bloc bois</button>
-          <button class="btn-sound-test" data-sound="soft">Doux</button>
-          <button class="btn-sound-test" data-sound="double">Double bip</button>
-          <button class="btn-sound-test" data-sound="low">Grave</button>
-          <button class="btn-sound-test" data-sound="glass">Verre</button>
-          <button class="btn-sound-test" data-sound="fanfare">Fanfare</button>
+          <button class="btn-sound-test" data-sound="click" data-i18n="sound_click">Clic</button>
+          <button class="btn-sound-test" data-sound="beep" data-i18n="sound_beep">Bip court</button>
+          <button class="btn-sound-test" data-sound="bell" data-i18n="sound_bell">Cloche</button>
+          <button class="btn-sound-test" data-sound="ping" data-i18n="sound_ping">Ping</button>
+          <button class="btn-sound-test" data-sound="alarm" data-i18n="sound_alarm">Alarme</button>
+          <button class="btn-sound-test" data-sound="chime" data-i18n="sound_chime">Carillon</button>
+          <button class="btn-sound-test" data-sound="wood" data-i18n="sound_wood">Bloc bois</button>
+          <button class="btn-sound-test" data-sound="soft" data-i18n="sound_soft">Doux</button>
+          <button class="btn-sound-test" data-sound="double" data-i18n="sound_double">Double bip</button>
+          <button class="btn-sound-test" data-sound="low" data-i18n="sound_low">Grave</button>
+          <button class="btn-sound-test" data-sound="glass" data-i18n="sound_glass">Verre</button>
+          <button class="btn-sound-test" data-sound="fanfare" data-i18n="sound_fanfare">Fanfare</button>
         </div>
         <div class="field" style="margin-top:1.5rem">
-          <span>Volume général</span>
+          <span data-i18n="master_vol">Volume général</span>
           <input type="range" id="master-volume" min="0" max="1" step="0.05" value="0.7" />
         </div>
       </div>
     </div>
   </div>
 
+  <script src="i18n.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

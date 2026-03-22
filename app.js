@@ -25,6 +25,9 @@ let state = {
   tempReal: 20,
   rollCount: 0,
   rollCompensation: 10,
+  isoRef: 100,
+  isoReal: 100,
+  isoStopFactor: 33,
 };
 
 let bathIdCounter = 0;
@@ -278,7 +281,18 @@ function calcRollFactor(rollCount, compensationPct) {
   return 1 + (rollCount * compensationPct / 100);
 }
 
+function calcIsoFactor(isoReal, isoRef, stopFactorPct) {
+  // stops = log2(isoReal / isoRef)  — positive = push, negative = pull
+  if (isoRef <= 0 || isoReal <= 0) return 1;
+  const stops = Math.log2(isoReal / isoRef);
+  // Each stop of push adds stopFactorPct% to development time
+  // pull works inversely: each stop under removes stopFactorPct%
+  const factorPerStop = 1 + (stopFactorPct / 100);
+  return Math.pow(factorPerStop, stops);
+}
+
 function updateCorrectionPreviews() {
+  // --- Temperature ---
   const ref = parseFloat(document.getElementById('temp-ref').value) || 20;
   const real = parseFloat(document.getElementById('temp-real').value) || ref;
   const delta = ref - real;
@@ -288,13 +302,11 @@ function updateCorrectionPreviews() {
   const tHint = document.getElementById('temp-hint');
   tDisp.textContent = `× ${tFactor.toFixed(2)}`;
   tDisp.className = 'factor-pill ' + (Math.abs(delta) < 0.1 ? 'neutral' : delta > 0 ? 'slower' : 'faster');
-  if (Math.abs(delta) < 0.1) {
-    tHint.textContent = 'Aucun écart';
-  } else {
-    const adjSec = tFactor;
-    tHint.textContent = `${delta > 0 ? '▲ Plus froid' : '▼ Plus chaud'} — écart ${Math.abs(delta).toFixed(1)}°C`;
-  }
+  tHint.textContent = Math.abs(delta) < 0.1
+    ? 'Aucun écart'
+    : `${delta > 0 ? '▲ Plus froid' : '▼ Plus chaud'} — écart ${Math.abs(delta).toFixed(1)}°C`;
 
+  // --- Roll exhaustion ---
   const rolls = parseInt(document.getElementById('roll-count').value, 10) || 0;
   const pct = parseFloat(document.getElementById('roll-compensation').value) || 10;
   const rFactor = calcRollFactor(rolls, pct);
@@ -302,6 +314,30 @@ function updateCorrectionPreviews() {
   const rPct = Math.round((rFactor - 1) * 100);
   rDisp.textContent = `+ ${rPct}%`;
   rDisp.className = 'factor-pill ' + (rPct === 0 ? 'neutral' : 'slower');
+
+  // --- ISO Push/Pull ---
+  const isoRef = parseFloat(document.getElementById('iso-ref').value) || 100;
+  const isoReal = parseFloat(document.getElementById('iso-real').value) || isoRef;
+  const stopFactor = parseFloat(document.getElementById('iso-stop-factor').value) || 33;
+  const stops = Math.log2(isoReal / isoRef);
+  const iFactor = calcIsoFactor(isoReal, isoRef, stopFactor);
+
+  const iDisp = document.getElementById('iso-factor-display');
+  const iHint = document.getElementById('iso-hint');
+  iDisp.textContent = `× ${iFactor.toFixed(2)}`;
+
+  const stopsLabel = Math.abs(stops) < 0.05
+    ? '0 stop — aucun écart'
+    : `${stops > 0 ? 'Push' : 'Pull'} ${Math.abs(stops).toFixed(2).replace('.00', '')} stop${Math.abs(stops) >= 2 ? 's' : ''}` ;
+
+  if (Math.abs(stops) < 0.05) {
+    iDisp.className = 'factor-pill neutral';
+  } else if (stops > 0) {
+    iDisp.className = 'factor-pill slower'; // push = more time
+  } else {
+    iDisp.className = 'factor-pill faster'; // pull = less time
+  }
+  iHint.textContent = stopsLabel;
 }
 
 // ---- BATH ITEM BUILDER ----
@@ -406,6 +442,9 @@ function collectConfig() {
   state.tempReal = parseFloat(document.getElementById('temp-real').value) || state.tempRef;
   state.rollCount = parseInt(document.getElementById('roll-count').value, 10) || 0;
   state.rollCompensation = parseFloat(document.getElementById('roll-compensation').value) || 10;
+  state.isoRef = parseFloat(document.getElementById('iso-ref').value) || 100;
+  state.isoReal = parseFloat(document.getElementById('iso-real').value) || state.isoRef;
+  state.isoStopFactor = parseFloat(document.getElementById('iso-stop-factor').value) || 33;
 
   state.baths = [];
   document.querySelectorAll('#baths-list .bath-item').forEach((el, i) => {
@@ -482,10 +521,12 @@ function startBath(index) {
   if (bath.applyCorrection) {
     const tFactor = calcTempFactor(state.tempReal, state.tempRef);
     const rFactor = calcRollFactor(state.rollCount, state.rollCompensation);
-    correctedDuration = Math.round(bath.duration * tFactor * rFactor);
+    const iFactor = calcIsoFactor(state.isoReal, state.isoRef, state.isoStopFactor);
+    correctedDuration = Math.round(bath.duration * tFactor * rFactor * iFactor);
     const parts = [];
     if (Math.abs(tFactor - 1) > 0.005) parts.push(`temp ×${tFactor.toFixed(2)}`);
     if (rFactor > 1.005) parts.push(`épuis. ×${rFactor.toFixed(2)}`);
+    if (Math.abs(iFactor - 1) > 0.005) parts.push(`iso ×${iFactor.toFixed(2)}`);
     if (parts.length) correctionNote = `[Corrigé : ${parts.join(', ')}]`;
   }
 
@@ -940,8 +981,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // ISO shortcuts
+  document.querySelectorAll('.btn-iso-preset').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const iso = btn.dataset.iso;
+      const wrap = btn.closest('.iso-ref-wrap');
+      wrap.querySelector('input').value = iso;
+      updateCorrectionPreviews();
+    });
+  });
+
   // Live correction previews
-  ['temp-ref', 'temp-real', 'roll-count', 'roll-compensation'].forEach(id => {
+  ['temp-ref', 'temp-real', 'roll-count', 'roll-compensation', 'iso-ref', 'iso-real', 'iso-stop-factor'].forEach(id => {
     document.getElementById(id).addEventListener('input', updateCorrectionPreviews);
   });
   updateCorrectionPreviews();

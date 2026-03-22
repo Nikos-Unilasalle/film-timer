@@ -111,7 +111,7 @@
       <!-- Corrections -->
       <div class="card corrections-card">
         <h2>🌡 Corrections temporelles</h2>
-        <div class="corrections-grid">
+        <div class="corrections-grid corrections-grid-3">
           <div class="correction-block">
             <h3>Température du bain</h3>
             <div class="options-grid">
@@ -151,6 +151,41 @@
                 <span class="field-hint">Activer ↓ par bain développeur</span>
               </div>
             </div>
+          </div>
+          <div class="correction-block">
+            <h3>🎥 Compensation ISO / Push-Pull</h3>
+            <div class="options-grid">
+              <label class="field">
+                <span>ISO de référence (vitesse du film)</span>
+                <div class="iso-ref-wrap">
+                  <input type="number" id="iso-ref" value="100" min="25" max="3200" step="1" />
+                  <button class="btn-iso-preset btn-ghost btn-sm" data-iso="100">100</button>
+                  <button class="btn-iso-preset btn-ghost btn-sm" data-iso="400">400</button>
+                </div>
+              </label>
+              <label class="field">
+                <span>ISO utilisé à la prise de vue</span>
+                <div class="iso-ref-wrap">
+                  <input type="number" id="iso-real" value="100" min="25" max="6400" step="1" />
+                  <button class="btn-iso-preset btn-ghost btn-sm" data-iso="200">200</button>
+                  <button class="btn-iso-preset btn-ghost btn-sm" data-iso="400">400</button>
+                  <button class="btn-iso-preset btn-ghost btn-sm" data-iso="800">800</button>
+                </div>
+              </label>
+              <label class="field">
+                <span>Facteur par stop (%)</span>
+                <div class="iso-factor-wrap">
+                  <input type="number" id="iso-stop-factor" value="33" min="10" max="60" step="1" />
+                  <span class="field-hint" style="margin-top:0">Défaut : 33% / stop</span>
+                </div>
+              </label>
+              <div class="field">
+                <span>Correction calculée</span>
+                <div id="iso-factor-display" class="factor-pill neutral">× 1.00</div>
+                <span class="field-hint" id="iso-hint">0 stop &mdash; aucun écart</span>
+              </div>
+            </div>
+            <p class="correction-disclaimer">⚠️ Valeur indicative — vérifiez la fiche technique de votre film/révélateur pour les temps de push.</p>
           </div>
         </div>
       </div>
